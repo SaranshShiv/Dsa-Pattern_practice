@@ -1,0 +1,52 @@
+/*
+Problem: Leaf-Similar Trees (LeetCode 872)
+Link: https://leetcode.com/problems/leaf-similar-trees/
+Pattern: Preorder Traversal
+
+Approach:
+Ek function bana lenge jo preorder traversal ki help se
+tree traverse karega.
+
+Traversal ke time:
+- Agar current node ke left aur right dono null hain,
+  matlab yeh leaf node hai,
+  to iski value ko list me store kar denge.
+
+Isi tarah dono trees ke leaf nodes ko alag-alag lists me store kar lenge.
+
+Traversal complete hone ke baad:
+- Dono lists compare karenge.
+- Agar dono same hain to true return kar denge,
+  warna false.
+
+Time Complexity: O(n + m)
+(n = nodes in first tree, m = nodes in second tree)
+
+Space Complexity: O(n + m)
+(leaf lists + recursion stack)
+*/
+
+class Solution {
+    List<Integer> tree1= new ArrayList<>();
+    List<Integer> tree2= new ArrayList<>();
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        
+        tree1= leaf(root1,new ArrayList<>());
+        tree2= leaf(root2,new ArrayList<>());
+
+        return tree1.equals(tree2);
+    }
+
+    List<Integer> leaf(TreeNode root,List<Integer> ans){
+        if(root==null)return ans;
+        if(root.left==null && root.right==null){
+            ans.add(root.val);
+            return ans;
+        }
+
+        leaf(root.left,ans);
+        leaf(root.right,ans);
+
+        return ans;
+    }
+}
